@@ -1,4 +1,3 @@
-import { useEffect, useState } from "react";
 import { NextPageContext } from "next";
 import { getSession } from "next-auth/react";
 import useCurrentUser from "@/hooks/useCurrentUser";
@@ -9,7 +8,10 @@ export async function getServerSideProps(context: NextPageContext) {
 
   if (!session) {
     return {
-      props: {},
+      redirect: {
+        destination: "/auth",
+        permanent: false,
+      },
     };
   }
 
@@ -20,20 +22,8 @@ export async function getServerSideProps(context: NextPageContext) {
 
 const Profiles = () => {
   const router = useRouter();
-  const { data: user, isLoading } = useCurrentUser();
-  const [isSessionLoaded, setIsSessionLoaded] = useState(false);
 
-  useEffect(() => {
-    if (!isLoading) {
-      setIsSessionLoaded(true);
-    }
-  }, [isLoading]);
-
-  useEffect(() => {
-    if (isSessionLoaded && !user) {
-      router.push("/auth");
-    }
-  }, [user, isSessionLoaded, router]);
+  const { data: user } = useCurrentUser();
 
   return (
     <div className="flex items-center h-full justify-center ">
