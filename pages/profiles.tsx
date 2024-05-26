@@ -33,7 +33,7 @@ const Profiles = () => {
     if (isSessionLoaded && !user) {
       router.push("/auth");
     }
-  }, [user, isSessionLoaded]);
+  }, [user, isSessionLoaded, router]);
 
   return (
     <div className="flex items-center h-full justify-center ">
